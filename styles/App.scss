@@ -1,0 +1,102 @@
+@use "constants" as *;
+@use "sass:map";
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 250px;
+  width: 100vw;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  position: relative;
+
+  h1 {
+    // margin: 0;
+    color: white;
+  }
+
+  form {
+    display: flex;
+    place-items: center;
+    border-radius: 100vh;
+
+    input {
+      font: inherit;
+      padding: 15px;
+      border: none;
+
+      &[type="text"] {
+        border-radius: 15px 0 0 15px;
+        width: 400px;
+        color: map.get($colors, "dark");
+      }
+
+      &[type="submit"] {
+        background-color: black;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+        padding-left: 29px;
+        border-radius: 0 15px 15px 0;
+      }
+    }
+  }
+
+  .place-info {
+    width: 800px;
+    max-width: 100%;
+    height: 150px;
+    background-color: white;
+    transform: translateY(50%);
+
+    position: absolute;
+    bottom: 0;
+    border-radius: 15px;
+
+    .pos-rel {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+      gap: 15px;
+
+      * {
+        text-align: center;
+      }
+
+      > div {
+        width: 100%;
+      }
+
+      &:not(:last-of-type)::after {
+        content: "";
+        background: map.get($colors, "dark");
+        position: absolute;
+        top: 37.5%;
+        height: 75%;
+        width: 1px;
+      }
+
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i})::after {
+          left: $i * 25%;
+        }
+      }
+
+      .key {
+        color: map.get($colors, "dark");
+        font-weight: map.get($weights, "heavy");
+        font-size: 14px;
+      }
+
+      .value {
+        font-weight: map.get($weights, "heavy");
+      }
+    }
+  }
+}

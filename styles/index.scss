@@ -1,0 +1,11 @@
+@use "constants" as *;
+@use "sass:map";
+
+body {
+  margin: 0;
+  font-family: "Rubik", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: map.get($weights, "light");
+  background-color: papayawhip;
+}
