@@ -8,3 +8,9 @@ $colors: (
   "dark": hsl(0, 0%, 59%),
   "very-dark": hsl(0, 0%, 17%),
 );
+
+@mixin mobile {
+  @media (max-width: 660px) {
+    @content;
+  }
+}

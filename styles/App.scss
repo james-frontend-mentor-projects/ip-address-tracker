@@ -28,7 +28,8 @@ header {
       &[type="text"] {
         border-radius: 15px 0 0 15px;
         width: 400px;
-        color: map.get($colors, "dark");
+        max-width: 70vw;
+        color: map.get($colors, "very-dark");
       }
 
       &[type="submit"] {
@@ -46,17 +47,26 @@ header {
     max-width: 100%;
     height: 150px;
     background-color: white;
-    transform: translateY(50%);
-
-    position: absolute;
-    bottom: 0;
     border-radius: 15px;
+    margin-top: 50px;
+    box-shadow: 0 5px 15px map.get($colors, "very-dark");
+    z-index: 1000;
+
+    @include mobile {
+      height: auto;
+      max-width: 70vw;
+      padding-bottom: 20px;
+    }
 
     .pos-rel {
       position: relative;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       height: 100%;
+
+      @include mobile() {
+        grid-template-columns: 1fr;
+      }
     }
 
     .card {
@@ -81,6 +91,10 @@ header {
         top: 25%;
         height: 50%;
         width: 1px;
+
+        @include mobile {
+          width: 0;
+        }
       }
 
       @for $i from 1 through 3 {
@@ -92,11 +106,12 @@ header {
       .key {
         color: map.get($colors, "dark");
         font-weight: map.get($weights, "heavy");
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .value {
         font-weight: map.get($weights, "heavy");
+        font-size: 20px;
       }
     }
   }
