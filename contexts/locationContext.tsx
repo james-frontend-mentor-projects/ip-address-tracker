@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoadingContext from "./loadingContext";
 
 type PlaceInfo = {
   ipAddress: string;
   location: string;
+  lat: number;
+  lng: number;
   timezone: string;
   isp: string;
 };
@@ -11,6 +13,8 @@ type PlaceInfo = {
 const initialState: PlaceInfo = {
   ipAddress: "",
   location: "",
+  lat: 0,
+  lng: 0,
   timezone: "",
   isp: "",
 };
@@ -28,6 +32,8 @@ export function generatePlaceInfo(input): PlaceInfo {
     location: [input?.location?.city, input?.location?.region, input?.location?.postalCode]
       .filter((value) => value)
       .join(", "),
+    lat: input?.location?.lat || 0,
+    lng: input?.location?.lng || 0,
     timezone: input?.location?.timezone || "",
     isp: input?.isp || "",
   };

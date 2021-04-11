@@ -1,17 +1,11 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import LoadingContext, { LoadingProps } from "../contexts/loadingContext";
 import LocationContext, { generatePlaceInfo, LocationProps } from "../contexts/locationContext";
 
 export const SearchForm: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
-  const ref = useRef<HTMLInputElement>(null);
   const { setLocation } = useContext<LocationProps>(LocationContext);
   const { setLoading } = useContext<LoadingProps>(LoadingContext);
-
-  function clearInputs() {
-    setInputText("");
-    if (ref.current) ref.current.value = "";
-  }
 
   function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
     setInputText(e.currentTarget.value);
@@ -21,7 +15,9 @@ export const SearchForm: React.FC = () => {
     setLoading(true);
     e.preventDefault();
 
-    fetch(`/api/ipify?location=${inputText}`)
+    const key = /^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})?$/.test(inputText) ? "location" : "domain";
+
+    fetch(`/api/ipify?${key}=${inputText}`)
       .then((res) => res.json())
       .then((res) => {
         // message should only be present in error scenarios
@@ -33,14 +29,13 @@ export const SearchForm: React.FC = () => {
         setLocation(generatePlaceInfo({}));
       })
       .finally(() => {
-        clearInputs();
         setLoading(false);
       });
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Search for any IP address or domain" onChange={handleOnChange} ref={ref} />
+      <input type="text" placeholder="Search for any IP address or domain" onChange={handleOnChange} />
       <input type="submit" style={{ backgroundImage: "url(images/icon-arrow.svg)" }} value="" />
     </form>
   );
