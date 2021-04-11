@@ -1,12 +1,12 @@
 import { useContext, useRef, useState } from "react";
-import LoadingContext from "../contexts/loadingContext";
-import LocationContext, { generatePlaceInfo } from "../contexts/locationContext";
+import LoadingContext, { LoadingProps } from "../contexts/loadingContext";
+import LocationContext, { generatePlaceInfo, LocationProps } from "../contexts/locationContext";
 
 export const SearchForm: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
   const ref = useRef<HTMLInputElement>(null);
-  const { setLocation } = useContext(LocationContext);
-  const { setLoading } = useContext(LoadingContext);
+  const { setLocation } = useContext<LocationProps>(LocationContext);
+  const { setLoading } = useContext<LoadingProps>(LoadingContext);
 
   function clearInputs() {
     setInputText("");
@@ -22,11 +22,20 @@ export const SearchForm: React.FC = () => {
     e.preventDefault();
 
     fetch(`/api/ipify?location=${inputText}`)
-      .then((res) => setLocation(generatePlaceInfo(res)))
-      .catch((e) => {});
-
-    clearInputs();
-    setLoading(false);
+      .then((res) => res.json())
+      .then((res) => {
+        // message should only be present in error scenarios
+        if (!res.message) setLocation(generatePlaceInfo(res));
+        else throw new Error(res.message);
+      })
+      .catch((e) => {
+        console.log(e);
+        setLocation(generatePlaceInfo({}));
+      })
+      .finally(() => {
+        clearInputs();
+        setLoading(false);
+      });
   }
 
   return (

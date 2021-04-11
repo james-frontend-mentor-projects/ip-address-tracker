@@ -10,7 +10,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   const url = `https://geo.ipify.org/api/v1?apiKey=${API_KEY}${ipAddress}`;
 
   return fetch(url)
-    .then((r) => r.json())
+    .then((r) => {
+      if (r.status === 200) return r.json();
+      throw new Error(`Server returned an error response: ${r.status}`);
+    })
     .then((r) => res.status(200).json(r))
     .catch((e) => res.status(400).json({ message: `${e}` }))
     .finally(() => res.end());

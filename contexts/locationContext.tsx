@@ -15,20 +15,21 @@ const initialState: PlaceInfo = {
   isp: "",
 };
 
-interface Props {
+export interface LocationProps {
   location: PlaceInfo;
   setLocation: React.Dispatch<React.SetStateAction<PlaceInfo>>;
 }
 
-const LocationContext = React.createContext<Props>(null);
+const LocationContext = React.createContext<LocationProps>(null);
 
 export function generatePlaceInfo(input): PlaceInfo {
-  console.log(input);
   return {
-    ipAddress: input?.ip,
-    location: `${input?.location?.city}, ${input?.location?.region}, ${input?.location?.postalCode}`,
-    timezone: input?.location?.timezone,
-    isp: input?.isp,
+    ipAddress: input?.ip || "",
+    location: [input?.location?.city, input?.location?.region, input?.location?.postalCode]
+      .filter((value) => value)
+      .join(", "),
+    timezone: input?.location?.timezone || "",
+    isp: input?.isp || "",
   };
 }
 

@@ -10,6 +10,11 @@ const LoadingContext = React.createContext<LoadingProps>(null);
 export const LoadingProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
-  return <LoadingContext.Provider value={{ loading, setLoading }}>{children}</LoadingContext.Provider>;
+  function sl(e) {
+    setLoading(e);
+  }
+
+  return <LoadingContext.Provider value={{ loading, setLoading: sl }}>{children}</LoadingContext.Provider>;
 };
+
 export default LoadingContext;

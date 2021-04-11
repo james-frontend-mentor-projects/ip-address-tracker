@@ -10,8 +10,6 @@ interface Props {
 export const PlaceInfoCard: React.FC<Props> = ({ k, v }) => {
   const { loading } = useContext(LoadingContext);
 
-  // if (loading) return <Loader type="TailSpin" color="#969696" height={70} width={70} />;
-
   return (
     <div className="card">
       {loading ? (
