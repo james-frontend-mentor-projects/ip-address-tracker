@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { API_KEY } from "../../creds";
+
+const API_KEY = process.env.API_KEY || "";
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const location = req?.query?.location;
@@ -8,8 +9,9 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
   const url = `https://geo.ipify.org/api/v1?apiKey=${API_KEY}${ipAddress}`;
 
-  fetch(url)
+  return fetch(url)
     .then((r) => r.json())
     .then((r) => res.status(200).json(r))
-    .catch((e) => res.status(400).json({ message: `${e}` }));
+    .catch((e) => res.status(400).json({ message: `${e}` }))
+    .finally(() => res.end());
 };
