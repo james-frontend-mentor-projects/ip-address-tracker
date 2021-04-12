@@ -59,7 +59,7 @@ Users should be able to:
 This was my first time using Leaflet.JS and IPIFY. Both were a pain to integrate for different reasons:
 
 - IPIFY throws CORS issues when called from a browser. This is why I chose to build the website in Next.JS rather than standard React - Next allows you to create API routes which sit on the server rather than the browser, so I could put calls to IPIFY in an API route and avoid having to deal with CORS entirely. Also, in the last few months Netlify have been adding more and more support for NEXT.js so even though it's a frontend framework I can deploy server-side routes without having to deal with a separate server hosted on Heroku or something.
-- The React implementation of Leaflet is a bit wonky. Firstly, it references the browser `window` without checking whether it exists or not - therefore I used the Next dynamic component feature (see snippet below) to be able to avoid SSR rendering the map component. Secondly, most of the Props in this React Leaflet library are immutable to I had to make a fairly hacky workaround to be able to update the map on route changes ([see here]("./components/Map.tsx")). It's pretty ugly but it works alright.
+- The React implementation of Leaflet is a bit wonky. Firstly, it references the browser `window` without checking whether it exists or not - therefore I used the Next dynamic component feature (see snippet below) to be able to avoid SSR rendering the map component. Secondly, most of the Props in this React Leaflet library are immutable to I had to make a fairly hacky workaround to be able to update the map on route changes ([see here](./components/Map.tsx)). It's pretty ugly but it works alright.
 
 ```js
 const Map = dynamic(() => import("../components/Map"), { ssr: false });
