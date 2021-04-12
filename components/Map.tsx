@@ -44,7 +44,7 @@ const Map: React.FC = () => {
       <style>
         {`
       .map {
-        height: ${height - 250}px !important;
+        height: ${height - 250 /* screen height - header height (ie "rest of the page") */}px !important;
       }`}
       </style>
       {container}

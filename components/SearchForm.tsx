@@ -1,19 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import LoadingContext, { LoadingProps } from "../contexts/loadingContext";
 import LocationContext, { generatePlaceInfo, LocationProps } from "../contexts/locationContext";
 
 export const SearchForm: React.FC = () => {
-  const [inputText, setInputText] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const { setLocation } = useContext<LocationProps>(LocationContext);
   const { setLoading } = useContext<LoadingProps>(LoadingContext);
-
-  function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
-    setInputText(e.currentTarget.value);
-  }
 
   function handleSubmit(e: React.SyntheticEvent) {
     setLoading(true);
     e.preventDefault();
+
+    const inputText = inputRef?.current?.value || "";
 
     const key = /^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})?$/.test(inputText) ? "location" : "domain";
 
@@ -35,7 +33,7 @@ export const SearchForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Search for any IP address or domain" onChange={handleOnChange} />
+      <input type="text" placeholder="Search for any IP address or domain" ref={inputRef} />
       <input type="submit" style={{ backgroundImage: "url(images/icon-arrow.svg)" }} value="" />
     </form>
   );
